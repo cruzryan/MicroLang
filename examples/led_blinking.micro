@@ -1,0 +1,22 @@
+using "Timer";
+
+config Timer(20,000);
+
+var x = pin 40;  -- Sets x to Pin 40
+
+function main(){ 
+    
+    digital out x; -- Sets x (pin 40) as a digital output pin
+        
+    for {
+        
+        on x;  -- Sends 5 volts to x (pin 40)
+
+        Timer delay(2000); -- Use delay() function of the Timer library
+        
+        off x; -- Sends 0 volts to x (pin 40)
+
+        Timer delay(1000);
+        
+    }
+}
