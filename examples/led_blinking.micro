@@ -1,6 +1,6 @@
 using "Timer";
 
-config Timer(20,000);
+config Timer(4000000); -- Tells timer we're using a 4Mhz crystal 
 
 var x = pin 40;  -- Sets x to Pin 40
 
