@@ -1,5 +1,6 @@
-inline namespace Logger {
+#pragma once
 
+inline namespace Logger {
 
     enum WindowsColor {
 
@@ -64,9 +65,14 @@ inline namespace Logger {
     void Log(std::string message){
 
         for(int i = 0; i < message.size(); i++){
+
+            // If a separator is reached ej: |r
             if(message.at(i) == separator){
 
+                // Change text color of console to apropiate color in this case "r"
                 changeColor(&message[i+1]);
+
+                //Skip the next char
                 i = i + 1;
 
             }else{
@@ -74,11 +80,15 @@ inline namespace Logger {
             }
         }       
 
+        //Reset color to default, we're using white as default
         changeColor("w");
         std::cout << "" << std::endl;
-
     
     }
 
-
+    //Useful for handling errors
+    void Panic(std::string message){
+        Log(message);
+        exit(0);
+    }
 }
