@@ -1,5 +1,8 @@
 {
     "files.associations": {
+
+        "*.micro": "lua",
+
         "iostream": "cpp",
         "system_error": "cpp",
         "array": "cpp",
