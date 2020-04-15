@@ -22,5 +22,4 @@ int main(int argc, char *argv[]){
 	
 	}
 
-	cout << "main fn" << endl;
 }

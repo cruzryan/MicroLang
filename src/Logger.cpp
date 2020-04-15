@@ -57,13 +57,7 @@ inline namespace Logger {
                     SetConsoleTextAttribute(hConsole, WindowsColor::GREY);
                 break;
             }
-
-
-            
-            return;
         }
-
-       // std::cout << "Changing color as : " << c[0] << std::endl;
        
     }
 
