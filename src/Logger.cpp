@@ -91,4 +91,11 @@ inline namespace Logger {
         Log(message);
         exit(0);
     }
+
+    //What we log when we're in Dev Mode
+    void Dev(std::string message){
+        if(DEVMODE){
+            Log(message);
+        }
+    }  
 }
