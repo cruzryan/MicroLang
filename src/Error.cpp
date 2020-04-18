@@ -11,18 +11,19 @@ inline namespace Error {
     const std::string
     
     /* Console Errors */
-    A0000 = "|kA0000 |rERROR: |wNo file or flags specified. Try using |pmicro --help",
+    A000 = "|kA0000 |rERROR: |wNo file or flags specified. Try using |pmicro --help",
 
 
-    /* Parser Errors */
-    //|pmicro your_file.micro -o output.asm
+    /* Tokenizer Errors */
 
-    P0001 = "Expected comma in line " + std::to_string(currentLine),
-    P0002 = "Something else",
+    T000 = "|kT0000 |rERROR: |wNo source specified or wrong path",
+    T001 = "|kT0001 |rERROR: |wSource file is empty",
+    T002 = "Expected comma in line " + std::to_string(currentLine),
+    T003 = "Something else",
     
 
     /* Compiler Errors */
 
-    C0001 = "Something";
+    C001 = "Something";
 
 };
