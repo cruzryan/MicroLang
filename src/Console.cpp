@@ -1,10 +1,12 @@
 namespace Console {
 
+    const std::string DEV_FILE_PATH = "../tests/variables/assign_variables.micro";
+
     void CheckParameters(int n, char *args[]){
             
 
 	    //If no arguments are passed to the compiler panic
-	    if(n == 1) Logger::Panic(Error::A0000);
+	    if(n == 1) Logger::Panic(Error::A000);
 
 
         /*
@@ -38,8 +40,11 @@ namespace Console {
         */
 
         if(args[1] == std::string("dev")){
-            #define DEVMODE true
-            Logger::Log("|gDev Mode started");
+            
+            Logger::setDevMode();
+            Logger::Dev("Started");
+            Tokenizer::Load(DEV_FILE_PATH);
+            
         }
 
     }

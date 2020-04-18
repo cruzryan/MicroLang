@@ -2,6 +2,8 @@
 
 inline namespace Logger {
 
+    bool dev_mode = false;
+
     enum WindowsColor {
 
         WHITE = 0x0F,
@@ -92,10 +94,14 @@ inline namespace Logger {
         exit(0);
     }
 
+    void setDevMode(){ 
+        dev_mode = true;
+    } 
+
     //What we log when we're in Dev Mode
     void Dev(std::string message){
-        if(DEVMODE){
-            Log(message);
+        if(dev_mode){
+            Log("|b(Dev Mode)|w " + message);
         }
     }  
 }

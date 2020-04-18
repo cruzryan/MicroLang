@@ -1,15 +1,14 @@
 #include <iostream>
 #include <fstream>
-
-#define DEVMODE false
+#include <tuple>
+#include <vector>
 
 #include "PlatformCheck.cpp"
 #include "Logger.cpp"
 #include "Error.cpp"
 #include "Test.cpp"
+#include "Tokenizer.cpp"
 #include "Console.cpp"
-
-//#include "Parser.cpp"
 
 using namespace std;
 
