@@ -1,23 +1,17 @@
 namespace Tokenizer {
 
     enum TokenType {
-
-        INIT, 
-        ASM, 
-        IF, 
-        ELSE, 
-        SET, 
-        INCREMENT, 
-        VARIABLE, 
-        FUNCTION, 
-        CALL_FUNCTION
-
+        SYMBOL,
+        SET,
+        OPERATION,
+        CLOSED_BRACKET,
+        OPEN_BRACKET
     };
 
     using std::vector;
     using std::tuple;
 
-    typedef tuple  <TokenType, vector<std::string>> Token;
+    typedef tuple  <TokenType, vector <std::string>> Token;
     typedef vector <Token> Tokens;
 
     std::ifstream inFile;
@@ -43,29 +37,40 @@ namespace Tokenizer {
     }   
 
 
-    void findInSource(char c){
-
+    int nearest_char(char c, int pos, std::string source){
+        for(int i = pos; i < source.size(); i++){
+            if(source[i] == c){
+                return i;
+            }
+        }
+        return 0;
     }
 
-
     void Tokenize(std::string src){
+
+        Tokens tokens;
+        
         if(src.empty()) Logger::Panic (Error::T001);
 
         for(int i = 0; i < src.size(); i++){
-            //std::cout << src[i];
 
+            // if(src.substr(i,))
+            
             if(src.substr(i,3) == "var"){
-                Logger::Dev("var found!");         
-                for(int x = i; x < src.size(); x++){
-
-                }
-
-	        }
-
-
-         }
+                
+                std::string var_sub;
+                
+                int nc = nearest_char(';',i,src);
+                var_sub = src.substr(i,(nc+1)-i);
+                i = nc+1;
 
 
+                tokens.push_back({TokenType::SET, {"",""}});
+            }
+
+        
+        
+        }
     }
 
 

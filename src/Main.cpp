@@ -2,6 +2,7 @@
 #include <fstream>
 #include <tuple>
 #include <vector>
+#include <memory>
 
 #include "PlatformCheck.cpp"
 #include "Logger.cpp"
@@ -11,6 +12,7 @@
 #include "Console.cpp"
 
 using namespace std;
+
 
 int main(int argc, char *argv[]){
 
