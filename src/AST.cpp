@@ -1,44 +1,23 @@
-class AST {
-    
-    private:
+namespace AST {
 
         struct Node {
-            
             std::vector<Node*> nodes;
-
             TokenType tt;
-
-            auto additional_info[];
-            
-                        
         }
 
-    public:
+		struct Function : Node {
+			std::vector<std::string> params;
+		}
 
+		struct Variable : Node {
+			std::string type;
+			std::string var_name;
+			std::string value;
+		}
 
+		struct If : Node {
+			std::string statement;
+			Node* else_node; //if there is no else, else_node will be NULL
+		}
 
 };
-
-
-
-	// struct Node {
-
-    //         std::vector<Node*> nodes;
-	// 		//TokenType tt;
-	// };
-
-	// //variable 
-	// template <typename T>
-	// struct Var : Node {
-
-	// 	T value;
-
-	// 	Var(T val){
-	// 		value = val;
-	// 	}
-	
-	// };
-
-    
-	// std::vector<std::unique_ptr<struct Node>> bruh;
-	// bruh.push_back(std::unique_ptr<Var> v(new <int> Var(3)));
