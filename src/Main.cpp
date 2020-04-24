@@ -3,6 +3,7 @@
 #include <tuple>
 #include <vector>
 #include <memory>
+#include <regex>
 
 #include "PlatformCheck.cpp"
 #include "Logger.cpp"
