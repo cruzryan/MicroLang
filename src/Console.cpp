@@ -6,7 +6,7 @@ namespace Console {
             
 
 	    //If no arguments are passed to the compiler panic
-	    if(n == 1) Logger::Panic(Error::A000);
+	    if(n == 1) Logger::Panic(Error::Get("A000"));
 
 
         /*
