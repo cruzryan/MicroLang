@@ -1,7 +1,12 @@
-var x = 0;
+var x=0;
 var y;
+var pin_de_motor = pin 40;
+var f = true;
+var l = false;
+var k = "lol brother";
+var hex_var = 0x33;
 
 function main(){
-    x = 1;
-    y = 2;
+    set x = 1;
+    set y = 2;
 }
