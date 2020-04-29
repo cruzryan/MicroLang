@@ -1,0 +1,10 @@
+collection x = pin[32,33,34,43,23,21]; 
+collection y = portb;
+
+digital out x;
+digital out y;
+
+function main(){
+    on x;
+    on y;
+}
