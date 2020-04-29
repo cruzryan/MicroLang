@@ -1,5 +1,6 @@
 var x=0;
 var y;
+var pin_de_ = pin 40;
 var pin_de_motor = pin 40;
 var f = true;
 var l = false;
@@ -8,5 +9,5 @@ var hex_var = 0x33;
 
 function main(){
     set x = 1;
-    set y = 2;
+    set y = x + 1;
 }
