@@ -43,8 +43,17 @@ namespace Console {
             
             Logger::setDevMode();
             Logger::Dev("Started");
-            Tokenizer::Load(DEV_FILE_PATH);
+
+            //Open dev file & tokenize
+            std::string source = Tokenizer::Load(DEV_FILE_PATH);
+            Tokenizer::Tokens tokens = Tokenizer::Tokenize(source);
             
+            //Use those tokens and make an AST
+            
+            AST::MakeAST(tokens);
+
+            //Use that AST and turn it into valid assembly
+
         }
 
     }
