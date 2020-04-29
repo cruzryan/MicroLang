@@ -6,7 +6,12 @@ namespace Tokenizer {
         OPERATION,
         CLOSED_BRACKET,
         OPEN_BRACKET,
-        VAR
+        VAR,
+        ON,
+        OFF,
+        DIGITAL,
+        ANALOG,
+        FUNCTION,
     };
 
     using std::vector;
@@ -16,11 +21,10 @@ namespace Tokenizer {
     typedef vector <Token> Tokens;
 
     std::ifstream inFile;
-    std::string src_main;        
 
     Tokens Tokenize(std::string src);
 
-    void Load(std::string src_path){
+    std::string Load(std::string src_path){
         Logger::Dev("|g(T) |wFile path: |g" + src_path);
         
         inFile.open(src_path);
@@ -30,9 +34,8 @@ namespace Tokenizer {
             exit(1); 
         }
         
-        //converting ifstream to string
-        src_main = std::string((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
-        Tokenize(src_main);
+        std::string loaded_src =  std::string((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+        return loaded_src; 
     }   
 
     int nearest_char(char c, int pos, std::string source){
@@ -60,6 +63,7 @@ namespace Tokenizer {
             /*
             * Is this the normal way to handle variable declaration in tokenizer?
             * No, but it's easier to handle it in the tokenizer than in the AST.
+            * I Kinda have a deadline on this project but I'll re-write a more efficient tokenizer later
             */
 
             if(src.substr(i,3) == "var"){
@@ -76,12 +80,10 @@ namespace Tokenizer {
                     Error::updateLine(line);
                     Logger::Panic( Error::Get("T003") );
                 }
-                //Eliminar espacios
 
+                //Deleting spaces
                 std::string::iterator end_pos = std::remove(var_sub.begin(), var_sub.end(), ' ');
                 var_sub.erase(end_pos, var_sub.end());
-
-                //Dividir el statement antes y despues de la asignacion de la variable
 
                 std::string variable_name = "";
 
@@ -90,30 +92,100 @@ namespace Tokenizer {
                         variable_name = variable_name + c;
                 }
 
-                ///TODO: I'll fix this mess later
-                int variable_name_length = variable_name.size() - 3;
-
-                Logger::Dev("var name: " + variable_name);
+                variable_name = variable_name.substr(3,variable_name.size());
 
                 //Detecting variables that are assigned with no value
                 if(variable_name[variable_name.size()-1] == ';'){
-                    variable_name = variable_name.substr(3,variable_name.size()-4);
-                    Logger::Dev("added: |g" + variable_name);
                     Token unassigned_variable = {TokenType::VAR, {variable_name, "{novalue}"}}; 
                     tokens.push_back(unassigned_variable);
                     continue;
                 }
 
-                // Logger::Dev(std::to_string(variable_name_length));
-
-                //Logger::Dev(var_sub.substr(5,var_sub.size()) + "in line: " + std::to_string(line));
-
-                tokens.push_back({TokenType::VAR, {"",""}});
+                std::string var_statement = var_sub.substr(variable_name.size()+4,var_sub.size()-(variable_name.size()+5));
+                
+                //If it's a pin variable declaration like: var x = pin 40;
+                if(var_statement.substr(0,3) == "pin"){
+                    Token pin_variable = {TokenType::VAR, {variable_name, "pin", var_statement.substr(3,var_statement.size()-2)}};
+                    tokens.push_back(pin_variable);
+                    continue;
+                }
+                //If it's not a pin declaration, or an empty declaration... just add the token
+                Token var_tkn = {TokenType::VAR, {variable_name, var_statement}};
+                tokens.push_back(var_tkn);
+                continue;
             }
 
-        
-        }
 
+            if(src.substr(i,9) == "function "){
+                int placeholder_i = i;
+                std::string on_substr;
+                
+                int nc = nearest_char('{',i,src);
+                on_substr = src.substr(i,(nc+1)-i);
+                i = nc;
+
+                int parenthesis_start_index = nearest_char('(',placeholder_i,src);
+                std::string fn_name = src.substr(placeholder_i + 9, (parenthesis_start_index) - (placeholder_i + 9));
+
+                int parenthesis_end_index = nearest_char(')',(parenthesis_start_index) - (placeholder_i + 9),src);
+                int prev_i = (parenthesis_start_index) - (placeholder_i + 9);
+                std::string fn_params = src.substr(parenthesis_start_index+1, (parenthesis_end_index - parenthesis_start_index)-1);
+                
+                //We solve {content} inside the AST rn we just wanna push (FUNCTION, {"[FN_NAME]", "[PARAMS]"}) 
+                Token fn_token = {TokenType::FUNCTION, {fn_name,fn_params}};
+                tokens.push_back(fn_token);
+                continue;
+            }
+
+            if(src.substr(i,5) == " set "){
+                
+                std::string set_substr;
+
+                std::string set_name = "";
+                std::string set_value = "";
+
+                int nc = nearest_char(';',i,src);
+                set_substr = src.substr(i,(nc+1)-i);
+                int prev_i = i;
+                i = nc;
+
+                int set_name_index = nearest_char(';',prev_i,src);
+
+                //Deleting spaces
+                std::string::iterator end_pos = std::remove(set_substr.begin(), set_substr.end(), ' ');
+                set_substr.erase(end_pos, set_substr.end());
+
+                bool after_equals = false;
+
+                for(const char k : set_substr){
+                    if(k == '=') after_equals = true;
+
+                    if(after_equals)
+                        set_value = set_value += k;
+                    else
+                        set_name = set_name +=k;
+                }
+
+                set_name = set_name.substr(3,set_name.size()-3);
+                set_value = set_value.substr(1,set_value.size()-2);
+
+                Token set_token = {TokenType::SET, {set_name, set_value}};
+                tokens.push_back(set_token);
+                continue;
+            }
+
+            if(src.substr(i,4) == " on "){
+                std::string on_substr;
+                
+                int nc = nearest_char(';',i,src);
+                on_substr = src.substr(i,(nc+1)-i);
+                i = nc;
+
+                //Logger::Dev("ON: |p" + on_substr);
+            }
+
+        }
+        Logger::Dev("|g(T) |w" + std::to_string(tokens.size()) + " tokens successfully generated");
         return tokens;
     }
 
