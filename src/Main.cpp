@@ -10,6 +10,8 @@
 #include "Error.cpp"
 #include "Test.cpp"
 #include "Tokenizer.cpp"
+#include "AST.cpp"
+#include "Assembler.cpp"
 #include "Console.cpp"
 
 using namespace std;
