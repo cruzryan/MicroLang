@@ -8,6 +8,6 @@ var k = "lol brother";
 var hex_var = 0x33;
 
 function main(){
-    set x = 1;
+    set x = 1; 
     set y = x + 1;
 }

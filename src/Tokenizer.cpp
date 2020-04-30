@@ -78,6 +78,14 @@ namespace Tokenizer {
             if( src[i] == ')'){ tokens.push_back({TokenType::CLOSED_ROUND_BRACKET, {")"}}); continue;}
 
 
+            //Comments
+            if(src.substr(i,2) == "--"){
+                line+=1;
+                int nc = nearest_char('\n',i,src);
+                if(nc!=0) i = nc;
+            }
+    
+
             /*
             * Is this the normal way to handle variable declaration in tokenizer?
             * No, but it's easier to handle it in the tokenizer than in the AST.
