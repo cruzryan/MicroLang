@@ -66,8 +66,8 @@ namespace Tokenizer {
             
             if( src[i] == '\n' || src[i] == '\r' ) line += 1;
            
-            if( src[i] == '{'){ tokens.push_back({TokenType::OPEN_CURLY_BRACKET, {"{"}}); Logger::Dev("XD {");}
-            if( src[i] == '}'){ tokens.push_back({TokenType::CLOSED_CURLY_BRACKET, {"}"}});   Logger::Dev("XD }");}
+            if( src[i] == '{'){ tokens.push_back({TokenType::OPEN_CURLY_BRACKET, {"{"}}); }
+            if( src[i] == '}'){ tokens.push_back({TokenType::CLOSED_CURLY_BRACKET, {"}"}}); }
 
             
             if( src[i] == '['){ tokens.push_back({TokenType::OPEN_SQUARE_BRACKET, {"["}}); continue;}
