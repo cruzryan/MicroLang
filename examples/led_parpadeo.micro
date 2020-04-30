@@ -1,0 +1,22 @@
+using "Timer"; -- Incluimos la libreria de "Timer" o temporizador
+
+config Timer(4000000); -- Le decimos que estamos usando un cristal de 4MHz
+
+var x = pin 40;  -- Dejamos que X sea igual al Pin 40 del micro
+
+function main(){ 
+    
+    digital out x; -- Declaramos x como una salida digital (0s y 1s) o (0volts y 5volts)
+   
+    for { -- poner "for" sin argumentos le dice al programa que siempre corra el codigo sin parar
+        
+        on x;  -- Le mandamos 5 volts a x (pin 40)
+
+        Timer delay(2000); -- Usamos la funcion delay() de la libreria Timer con 2000 milisegundos
+        
+        off x; -- Le mandamos 0 volts a x (pin 40)
+
+        Timer delay(1000);
+        
+    }
+}

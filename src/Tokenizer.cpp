@@ -1,17 +1,23 @@
 namespace Tokenizer {
 
     enum TokenType {
-        SYMBOL,
+
+        GLOBAL,
+
         SET,
-        OPERATION,
-        CLOSED_BRACKET,
-        OPEN_BRACKET,
         VAR,
         ON,
         OFF,
         DIGITAL,
         ANALOG,
         FUNCTION,
+
+        OPEN_CURLY_BRACKET,
+        CLOSED_CURLY_BRACKET,
+        OPEN_SQUARE_BRACKET,
+        CLOSED_SQUARE_BRACKET,
+        OPEN_ROUND_BRACKET,
+        CLOSED_ROUND_BRACKET,
     };
 
     using std::vector;
@@ -59,7 +65,19 @@ namespace Tokenizer {
         for(int i = 0; i < src.size(); i++){
             
             if( src[i] == '\n' || src[i] == '\r' ) line += 1;
+           
+            if( src[i] == '{'){ tokens.push_back({TokenType::OPEN_CURLY_BRACKET, {"{"}}); Logger::Dev("XD {");}
+            if( src[i] == '}'){ tokens.push_back({TokenType::CLOSED_CURLY_BRACKET, {"}"}});   Logger::Dev("XD }");}
+
             
+            if( src[i] == '['){ tokens.push_back({TokenType::OPEN_SQUARE_BRACKET, {"["}}); continue;}
+            if( src[i] == ']'){ tokens.push_back({TokenType::CLOSED_SQUARE_BRACKET, {"]"}}); continue;}
+
+
+            if( src[i] == '('){ tokens.push_back({TokenType::OPEN_ROUND_BRACKET, {"("}}); continue;}
+            if( src[i] == ')'){ tokens.push_back({TokenType::CLOSED_ROUND_BRACKET, {")"}}); continue;}
+
+
             /*
             * Is this the normal way to handle variable declaration in tokenizer?
             * No, but it's easier to handle it in the tokenizer than in the AST.
@@ -96,7 +114,7 @@ namespace Tokenizer {
 
                 //Detecting variables that are assigned with no value
                 if(variable_name[variable_name.size()-1] == ';'){
-                    Token unassigned_variable = {TokenType::VAR, {variable_name, "{novalue}"}}; 
+                    Token unassigned_variable = {TokenType::VAR, {variable_name.substr(0,variable_name.size()-1), "{novalue}"}}; 
                     tokens.push_back(unassigned_variable);
                     continue;
                 }
@@ -122,7 +140,7 @@ namespace Tokenizer {
                 
                 int nc = nearest_char('{',i,src);
                 on_substr = src.substr(i,(nc+1)-i);
-                i = nc;
+                i = nc-1;
 
                 int parenthesis_start_index = nearest_char('(',placeholder_i,src);
                 std::string fn_name = src.substr(placeholder_i + 9, (parenthesis_start_index) - (placeholder_i + 9));
