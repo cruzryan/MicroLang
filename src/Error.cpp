@@ -4,9 +4,11 @@ inline namespace Error {
 
     int currentLine;
     int currentChar;
+    std::string additionalInfo = "";
 
     void updateLine(int lineNumber){ currentLine = lineNumber; }
     void updateChar(int charNumber){ currentChar = charNumber; }
+    void updateAditionalInfo(std::string info){additionalInfo = info; }
 
     std::string Get(std::string err){
 
@@ -20,6 +22,9 @@ inline namespace Error {
         if(err == "T003") return "|k" + err + " |rERROR: |wexpected whitespace in line: " + std::to_string(currentLine) + " after 'var'";
         // if(err == "T004") return 
         // if(err == "T005") return 
+
+        /* AST Errors */ 
+        if(err == "AST001") return "|k" + err + " |rERROR: |wFailure to close scope on function " + additionalInfo + "()";
 
         return "";
     }
