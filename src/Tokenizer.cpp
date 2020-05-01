@@ -1,7 +1,6 @@
 namespace Tokenizer {
 
     enum TokenType {
-
         GLOBAL,
 
         SET,
@@ -82,7 +81,8 @@ namespace Tokenizer {
             if(src.substr(i,2) == "--"){
                 line+=1;
                 int nc = nearest_char('\n',i,src);
-                if(nc!=0) i = nc;
+                //If a comment is at the last line of the file nc == 0 so we skip that
+                if(nc!=0) i = nc; 
             }
     
 
@@ -122,8 +122,9 @@ namespace Tokenizer {
 
                 //Detecting variables that are assigned with no value
                 if(variable_name[variable_name.size()-1] == ';'){
-                    Token unassigned_variable = {TokenType::VAR, {variable_name.substr(0,variable_name.size()-1), "{novalue}"}}; 
-                    tokens.push_back(unassigned_variable);
+                    //We'll deal with this later
+                    // Token unassigned_variable = {TokenType::VAR, {variable_name.substr(0,variable_name.size()-1), "{novalue}"}}; 
+                    // tokens.push_back(unassigned_variable);
                     continue;
                 }
 
