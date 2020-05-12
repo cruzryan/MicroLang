@@ -72,7 +72,11 @@ inline namespace Logger {
             if(message.at(i) == separator){
 
                 // Change text color of console to apropiate color in this case "r"
-                changeColor(&message[i+1]);
+                if(message[i+1] != (char)'|'){ // Don't change color when you encounter ||
+                    changeColor(&message[i+1]);
+                }else{
+                    std::cout << message.at(i);
+                }
 
                 //Skip the next char
                 i = i + 1;
