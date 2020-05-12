@@ -49,11 +49,10 @@ namespace Console {
             Tokenizer::Tokens tokens = Tokenizer::Tokenize(source);
             
             //Use those tokens and make an AST
-            
-            AST::MakeAST(tokens);
+            AST::Node* AST = AST::MakeAST(tokens);
 
             //Use that AST and turn it into valid assembly
-
+            Assembler::MakeAssembly(AST);
         }
 
     }
