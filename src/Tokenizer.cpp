@@ -122,9 +122,8 @@ namespace Tokenizer {
 
                 //Detecting variables that are assigned with no value
                 if(variable_name[variable_name.size()-1] == ';'){
-                    //We'll deal with this later
-                    // Token unassigned_variable = {TokenType::VAR, {variable_name.substr(0,variable_name.size()-1), "{novalue}"}}; 
-                    // tokens.push_back(unassigned_variable);
+                    Token unassigned_variable = {TokenType::VAR, {variable_name.substr(0,variable_name.size()-1), "{novalue}"}}; 
+                    tokens.push_back(unassigned_variable);
                     continue;
                 }
 
@@ -157,7 +156,7 @@ namespace Tokenizer {
                 int parenthesis_end_index = nearest_char(')',(parenthesis_start_index) - (placeholder_i + 9),src);
                 int prev_i = (parenthesis_start_index) - (placeholder_i + 9);
                 std::string fn_params = src.substr(parenthesis_start_index+1, (parenthesis_end_index - parenthesis_start_index)-1);
-                
+
                 //We solve {content} inside the AST rn we just wanna push (FUNCTION, {"[FN_NAME]", "[PARAMS]"}) 
                 Token fn_token = {TokenType::FUNCTION, {fn_name,fn_params}};
                 tokens.push_back(fn_token);
