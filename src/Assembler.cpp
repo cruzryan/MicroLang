@@ -27,14 +27,14 @@ namespace Assembler {
     void generateVariable(Node* node){
         std::string var_value;
 
-        if(node->type == "bool"){
-            if(node->value == "true") var_value = "11111111";
-            else var_value = "00000000";
-        }
+        // if(node->type == "bool"){
+        //     if(node->value == "true") var_value = "11111111";
+        //     else var_value = "00000000";
+        // }
 
-        if(node->type == "string"){
-            //TO-DO
-        }
+        // if(node->type == "string"){
+        //     //TO-DO
+        // }
 
         
 

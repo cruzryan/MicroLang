@@ -1,6 +1,6 @@
 namespace Console {
 
-    const std::string DEV_FILE_PATH = "../tests/variables/assign_variables.micro";
+    const std::string DEV_FILE_PATH = "./tests/variables/assign_variables.micro";
 
     void CheckParameters(int n, char *args[]){
             

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 inline namespace Error {
 

@@ -1,10 +1,11 @@
 #pragma once
+#include <iostream>
 
 inline namespace Logger {
 
     bool dev_mode = false;
 
-    enum WindowsColor {
+    enum class WindowsColor {
 
         WHITE = 0x0F,
         RED = 0x0C,
@@ -33,8 +34,8 @@ inline namespace Logger {
 
     void changeColor(const char* c){
 
-        
-        if(PLATFORM_NAME == "windows"){
+
+        #if defined(_WIN32) || defined(_WIN64)
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
             switch(c[0]){
@@ -60,8 +61,32 @@ inline namespace Logger {
                     SetConsoleTextAttribute(hConsole, WindowsColor::GREY);
                 break;
             }
-        }
-       
+        #elif defined(__linux__)
+
+        switch(c[0]){
+                case 'w':
+                    std::cout << "\033[1;" << "97" << "m";
+                break;
+                case 'r':
+                    std::cout << "\033[1;" << "31" << "m";
+                break;
+                case 'g':
+                    std::cout << "\033[1;" << "92" << "m";
+                break;
+                case 'b':
+                    std::cout << "\033[1;" << "34" << "m";
+                break;
+                case 'y':
+                    std::cout << "\033[1;" << "33" << "m";
+                break;
+                case 'p':
+                    std::cout << "\033[1;" << "35" << "m";
+                break;
+                case 'k':
+                    std::cout << "\033[1;" << "90" << "m";
+                break;
+            }
+        #endif
     }
 
     void Log(std::string message){

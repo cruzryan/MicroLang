@@ -1,8 +1,6 @@
 {
     "files.associations": {
-
         "*.micro": "lua",
-
         "iostream": "cpp",
         "system_error": "cpp",
         "array": "cpp",
@@ -41,6 +39,15 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "bitset": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "regex": "cpp"
     }
 }

@@ -35,8 +35,7 @@ namespace Tokenizer {
         inFile.open(src_path);
         
         if (!inFile) {
-            Logger::Log( Error::Get("T000") );
-            exit(1); 
+            Logger::Panic( Error::Get("T000") );
         }
         
         std::string loaded_src =  std::string((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
