@@ -1,3 +1,5 @@
+#include <string>
+
 namespace AST {
 
 	using namespace Tokenizer;
@@ -12,7 +14,7 @@ namespace AST {
 		
 		vector<struct Node*> nodes;
 		Tokenizer::TokenType tokentype;
-		std::string tokenstr;
+		string tokenstr;
 
 		void insert(struct Node *x){
 			if(x == nullptr) return;
@@ -27,7 +29,7 @@ namespace AST {
 			return this->nodes[index];
 		}
 		
-		std::string getstr(){
+		string getstr(){
 			return this->tokenstr;
 		}
 
@@ -37,8 +39,8 @@ namespace AST {
 
 
 	struct Function : Node {
-		std::vector<std::string> params;
-		Function(std::vector<std::string> params){
+		std::vector<string> params;
+		Function(std::vector<string> params){
 			this->params = params;		
 			this->tokentype = TokenType::FUNCTION;
 			this->tokenstr = "fn";
@@ -46,11 +48,11 @@ namespace AST {
 	};
 
 	struct Variable : Node {
-		std::string type;
-		std::string var_name;
-		std::string value;
+		string type;
+		string var_name;
+		string value;
 			
-		Variable(Tokenizer::TokenType tt, std::string type, std::string var_name, std::string value){
+		Variable(Tokenizer::TokenType tt, string type, string var_name, string value){
 			this->tokentype = tt;
 			this->type = type;
 			this->var_name = var_name;
@@ -59,7 +61,7 @@ namespace AST {
 		}
 	};
 
-	std::string getTypeOfVar(std::string statement){
+	string getTypeOfVar(string statement){
 		if(statement[0] == '"' && statement[statement.size()-1] == '"' ) return "string";
 		if(statement.substr(0,2) == "0x") return "hex";
 		if(strspn( statement.c_str(), "-.0123456789" ) == statement.size() ) return "number";	
@@ -83,14 +85,14 @@ namespace AST {
 
 			case TokenType::VAR: {
 
-				std::string var_name = std::get<1>(tkn)[0]; 
-				if(std::get<1>(tkn)[1] == std::string("pin")){
+				string var_name = std::get<1>(tkn)[0]; 
+				if(std::get<1>(tkn)[1] == string("pin")){
 					Variable* pin_var_node = new Variable(token_type, "pin", var_name, std::get<1>(tkn)[2]);
 					return pin_var_node;
 				}
 
 				//If it's not a pin variable, let's check what's going on in the statement
-				std::string statement = std::get<1>(tkn)[1];
+				string statement = std::get<1>(tkn)[1];
 				Variable* varnode = new Variable(token_type, "", var_name, statement);
 				varnode->type = getTypeOfVar(statement);
 				return varnode;
@@ -137,16 +139,16 @@ namespace AST {
 				//If user didn't close the scope panic!
 				if(end_scope_pos == -1){
 					//Tell Error the additional info we want is the name of the function
-					std::string function_name = std::get<1>(tkn)[0];
+					string function_name = std::get<1>(tkn)[0];
 					Error::updateAditionalInfo(function_name);
 					Logger::Panic( Error::Get("AST001") );
 				}else{ //If there is a scope:
 				
 
 					//Assign function parameters ex. function lol(x,y,z) it would be x,y,z
-					std::vector<std::string> params;
-					std::string cur_param = "";
-					std::string fnParamsFromToken = std::get<1>(tkn)[1]; 
+					std::vector<string> params;
+					string cur_param = "";
+					string fnParamsFromToken = std::get<1>(tkn)[1]; 
 
 					for(int y = 0; y < fnParamsFromToken.size(); y++){
 						if(fnParamsFromToken[y] == ','){
@@ -197,7 +199,7 @@ namespace AST {
 		for(int n = 0; n < node->getNumberOfNodes(); n++){
 			auto tempNode = node->getNode(n);
 
-			std::string spaces = "";
+			string spaces = "";
 			for(i = 0; i < spacesCount*2; i++) spaces += " ";
 
 			if(tempNode->getNumberOfNodes() != 0){

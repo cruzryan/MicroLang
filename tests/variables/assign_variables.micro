@@ -10,4 +10,11 @@ var hex_var = 0x33;
 function main(){
     set x = 1; 
     set y = x + 1;
+	
+	function b(){
+		set x = 2;
+		function c(){
+			set y = 2;	
+		}
+	}
 }
